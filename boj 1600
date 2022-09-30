@@ -1,0 +1,102 @@
+// https://www.acmicpc.net/problem/1600
+// 골드 3, 말이 되고픈 원숭이
+// 3차원 방문배열을 이용한 BFS
+// 메모리 88,800kb, 시간 568ms, 코드길이 1994b
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+
+	public static int n,m,k, result = -1;
+	public static int[][] map;
+	public static boolean[][][] check;
+	public static Queue<XY> q = new LinkedList<>();
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		k = Integer.parseInt(br.readLine());
+		
+		st = new StringTokenizer(br.readLine());
+		m = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		
+		map = new int[n][m];
+		check = new boolean[n][m][k+1];
+		
+		for(int i=0;i<n;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<m;j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		q.add(new XY(0,0,0,0));
+		check[0][0][0] = true;
+		
+		int[] dx = {0,0,1,-1};
+		int[] dy = {1,-1,0,0};
+		
+		int[] hx = {-2, -1, -2, -1, 1, 2, 1, 2};
+		int[] hy = {-1, -2, 1, 2, -2, -1, 2, 1};
+		
+		while(!q.isEmpty()) {
+			XY temp = q.poll();
+			
+			if(temp.x == n-1 && temp.y == m-1) {
+				result = temp.count;
+				q.clear();
+				break;
+			}
+			
+			if(temp.j<k) {
+				for(int i=0;i<8;i++) {
+					int x = temp.x + hx[i];
+					int y = temp.y + hy[i];
+					
+					if(x<0 || y<0 || x>= n || y>= m) continue;
+					if(map[x][y] != 0) continue;
+					if(check[x][y][temp.j+1]) continue;
+					
+					check[x][y][temp.j+1] = true;
+					q.offer(new XY(x,y,temp.j+1,temp.count+1));
+				}
+			}
+			
+			for(int i=0;i<4;i++) {
+				int x = temp.x + dx[i];
+				int y = temp.y + dy[i];
+				
+				if(x<0 || y<0 || x>= n || y>= m) continue;
+				if(map[x][y] != 0) continue;
+				if(check[x][y][temp.j]) continue;
+				
+				check[x][y][temp.j] = true;
+				q.offer(new XY(x,y,temp.j, temp.count+1));
+			}
+		}
+		
+		System.out.println(result);
+		
+		
+	}
+
+	
+	public static class XY{
+		int x;
+		int y;
+		int j;
+		int count;
+		public XY(int x, int y, int j, int count) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.j = j;
+			this.count = count;
+		}
+		
+		
+		
+	}
+}
