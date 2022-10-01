@@ -1,0 +1,88 @@
+// https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV15QRX6APsCFAYD
+// 난이도 : D4, priorityQueue로 문제해결
+// 메모리 33,396kb, 실행시간 131ms, 코드길이 1,671
+
+import java.util.*;
+import java.io.*;
+
+
+public class Solution {
+
+	public static int n, result;
+	public static int[][] map;
+	public static PriorityQueue<XY> q;
+	public static boolean[][] visit;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		for(int t= 1; t<=T; t++) {
+			n = Integer.parseInt(br.readLine());
+			result = Integer.MAX_VALUE;
+			q = new PriorityQueue<>();
+			map= new int[n][n];
+			visit = new boolean[n][n];
+			
+			for(int i=0;i<n;i++) {
+				char[] temp = br.readLine().toCharArray();
+				for(int j=0;j<n;j++) {
+					map[i][j]= temp[j] -'0';
+				}
+			}
+			
+			q.offer(new XY(0,0,0));
+			visit[0][0] = true;
+			
+			while(!q.isEmpty()) {
+				XY temp = q.poll();
+				
+				if(temp.x == n-1 && temp.y == n-1) {
+					result = temp.cnt;
+					q.clear();
+					break;
+				}
+				
+				for(int i=0;i<4;i++) {
+					int x = temp.x + dx[i];
+					int y = temp.y + dy[i];
+					
+					if(x<0 || x>=n || y<0 || y>=n) continue;
+					if(visit[x][y]) continue;
+					
+					q.offer(new XY(x,y,temp.cnt+map[x][y]));
+					visit[x][y] = true;
+					
+				}
+			}
+			
+			
+			sb.append("#"+t+" " + result + "\n");
+		}
+		
+		System.out.println(sb.toString());
+		
+	}
+	
+	public static int[] dx = {1,-1,0,0};
+	public static int[] dy = {0,0,1,-1};
+	
+	public static class XY implements Comparable<XY>{
+		int x;
+		int y;
+		int cnt;
+		public XY(int x, int y, int cnt) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+		}
+		@Override
+		public int compareTo(XY o) {
+			return this.cnt-o.cnt;
+		}
+		
+	}
+}
