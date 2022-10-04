@@ -1,0 +1,162 @@
+// 문제 : https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWXRQm6qfL0DFAUo
+// 5656. [모의 SW 역량테스트] 벽돌 깨기
+// 메모리 : 54,140kb, 실행시간 : 173ms, 코드길이 2,949
+
+import java.io.*;
+import java.util.*;
+
+
+public class Solution {
+	public static int w,h,n, result;
+	public static int[][] map;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		int t = Integer.parseInt(br.readLine());
+		
+		for(int T=1;T<=t ;T++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			n = Integer.parseInt(st.nextToken());
+			w = Integer.parseInt(st.nextToken());
+			h = Integer.parseInt(st.nextToken());
+			result = Integer.MAX_VALUE;
+			
+			map = new int[h][w];
+			
+			for(int i=0;i<h;i++) {
+				st = new StringTokenizer(br.readLine(), " ");
+				for(int j=0;j<w;j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+			
+			dfs(0);
+			result = result==Integer.MAX_VALUE ? 0 : result;
+			
+			sb.append("#"+T+ " " + result+ "\n");
+		}
+		
+		System.out.println(sb.toString());
+	}
+	
+	public static int[] dx= {1,-1,0,0};
+	public static int[] dy= {0,0,1,-1};
+	
+	
+	public static void dfs(int num) {
+		if(num == n) {
+			int sum = 0;
+			for(int i=0;i<h;i++) {
+				for(int j=0;j<w;j++) {
+					if(map[i][j] != 0) sum++;
+				}
+			}
+			result = Math.min(result,  sum);
+			return;
+		}
+		int[][] temp = new int[h][w];
+		for(int a=0;a<h;a++) {
+			for(int b=0;b<w;b++) {
+				temp[a][b] = map[a][b];
+			}
+		}
+		for(int j=0;j<w;j++) {
+			
+			for(int i= 0;i<h;i++) {
+				if(map[i][j] != 0) {
+					if(map[i][j] == 1) {
+						map[i][j] = 0;
+						dfs(num+1);
+						map[i][j] = 1;
+					}
+					else {
+						Queue<XY> q = new LinkedList<>();
+						q.offer(new XY(i,j));
+						while(!q.isEmpty()) {
+							XY tmp = q.poll();
+							int cnt = map[tmp.x][tmp.y];
+							map[tmp.x][tmp.y]= 0;
+							if(cnt == 1) continue;
+							
+							for(int k=0;k<4;k++) {
+								int x = tmp.x;
+								int y = tmp.y;
+								for(int l=0; l<cnt-1;l++) {
+									x += dx[k];
+									y += dy[k];
+									
+									if(x<0 || y<0 || x>=h || y>=w) break;
+									if(map[x][y] == 0) continue;
+									
+									q.offer(new XY(x,y));
+								}
+							}
+							
+						}
+						
+						down();
+						dfs(num+1);
+						for(int a=0;a<h;a++) {
+							for(int b=0;b<w;b++) {
+								map[a][b] = temp[a][b];
+							}
+						}
+						
+					}
+					
+					break;
+				}
+			}
+			
+			
+			
+		}
+		
+		
+	}
+	
+	
+	public static void down() {
+		
+		for(int j=0;j<w;j++) {
+			Queue<Integer> q = new LinkedList<>();
+			for(int i=h-1; i>=0; i--) {
+				if(map[i][j] != 0) {
+					q.offer(map[i][j]);
+					map[i][j] = 0;
+				}
+			}
+			
+			for(int i=h-1; i>=0 && !q.isEmpty(); i--) {
+				map[i][j] = q.poll();
+				
+			}
+			
+		}
+	}
+	
+	public static class XY{
+		int x;
+		int y;
+		public XY(int x, int y) {
+			super();
+			this.x = x;
+			this.y = y;
+		}
+		
+	}
+	
+	public static void pr() {
+		System.out.println();
+		for(int a=0;a<h;a++) {
+			for(int b=0;b<w;b++) {
+				System.out.print(map[a][b] + " ");
+			}
+			System.out.println();
+		}
+	}
+
+}
