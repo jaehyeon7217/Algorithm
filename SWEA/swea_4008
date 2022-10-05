@@ -1,0 +1,84 @@
+// 문제 : 4008. [모의 SW 역량테스트] 숫자 만들기
+// https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWIeRZV6kBUDFAVH
+// 메모리 : 29,812kb, 실행시간 134ms, 코드길이 1,604
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	public static int n, resultMax, resultMin;
+	public static int[] oper;
+	public static int[] num;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		for(int t=1; t<=T ; t++) {
+			n = Integer.parseInt(br.readLine());
+			oper= new int[4];
+			num = new int[n];
+			resultMax = Integer.MIN_VALUE;
+			resultMin= Integer.MAX_VALUE;
+			
+			 st = new StringTokenizer(br.readLine(), " ");
+			 for(int i=0;i<4;i++) 
+				 oper[i] = Integer.parseInt(st.nextToken());
+			 
+			 st = new StringTokenizer(br.readLine(), " ");
+			 for(int i=0;i<n;i++) 
+				 num[i] = Integer.parseInt(st.nextToken());
+			
+			dfs(0,num[0]);
+			
+			sb.append("#"+ t+" " + (resultMax-resultMin)+"\n");		
+			
+		}
+		
+		System.out.println(sb.toString());
+		
+		
+	}
+	
+	public static void dfs(int cnt, int sum) {
+		if(cnt == n-1) {
+			resultMax = Math.max(resultMax, sum);
+			resultMin = Math.min(resultMin, sum);
+			return;
+		}
+		
+		for(int i=0;i<4;i++) {
+			if(oper[i] != 0) {
+				switch(i) {
+				case 0 :
+					oper[i]--;
+					dfs(cnt+1, sum+num[cnt+1]);
+					oper[i]++;
+					break;
+				case 1 :
+					oper[i]--;
+					dfs(cnt+1, sum-num[cnt+1]);
+					oper[i]++;
+					break;
+				case 2 :
+					oper[i]--;
+					dfs(cnt+1, sum*num[cnt+1]);
+					oper[i]++;
+					break;
+				case 3 :
+					oper[i]--;
+					dfs(cnt+1, sum/num[cnt+1]);
+					oper[i]++;
+					break;
+				}
+			}
+		}
+		
+	}
+
+}
