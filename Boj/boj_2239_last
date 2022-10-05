@@ -1,0 +1,97 @@
+// 문제 : https://www.acmicpc.net/problem/2239
+// 골드 4, 2239 스도쿠
+// 메모리 14,872kb, 시간 372ms, 코드길이 1,684b
+// 리스트 없애고 2차원 배열을 1차원처럼 사용해서 빽트래킹 -> 100ms 줄었음
+// 매번 검사하는 방식에서 방문배열로 수정 -> 500ms 이상 줄었음 (약간 메모이제이션 느낌?)
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	
+	public static int n = 9;
+	public static int[][] map = new int[n][n];
+	public static StringBuilder sb = new StringBuilder();
+	public static boolean[][] g = new boolean[n][n+1];
+	public static boolean[][] s = new boolean[n][n+1];
+	public static boolean[][] b = new boolean[n][n+1];
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		
+		for(int i=0;i<n;i++) {
+			char[] temp = br.readLine().toCharArray();
+			for(int j=0;j<n;j++) {
+				map[i][j] = temp[j] - '0';
+				g[i][map[i][j]] = true;
+				s[j][map[i][j]] = true;
+				
+				int tempB = i/3*3 + j/3;
+				b[tempB][map[i][j]] = true;
+				
+			}
+		}
+		
+		dfs(0);
+		
+		System.out.println(sb.toString());
+		
+	}
+	
+	public static boolean dfs(int num) {
+		if(num == n*n) {
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					sb.append(map[i][j]);
+				}
+				sb.append("\n");
+			}
+			
+			return true;
+		}
+		
+		int tempX = num/9;
+		int tempY = num- tempX*9;
+		
+		if(map[tempX][tempY] != 0) {
+			if(dfs(num+1)) return true;
+			return false;
+		}
+		
+		for(int i=1; i<=9;i++) {
+			if(g[tempX][i])continue;
+			if(s[tempY][i])continue;
+			
+			int tempB = tempX/3*3 + tempY/3;
+			if(b[tempB][i])continue;
+			
+			g[tempX][i] = true;
+			s[tempY][i] = true;
+			b[tempB][i] = true;
+			
+			map[tempX][tempY]=i;
+			if(dfs(num+1)) return true;
+			map[tempX][tempY]=0;
+			g[tempX][i] = false;
+			s[tempY][i] = false;
+			b[tempB][i] = false;
+		
+		}
+		return false;
+	}
+	
+	
+	
+	public static class XY{
+		int x;
+		int y;
+		public XY(int x, int y) {
+			super();
+			this.x = x;
+			this.y = y;
+		}
+		
+	}
+	
+}
