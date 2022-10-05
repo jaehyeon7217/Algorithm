@@ -1,0 +1,74 @@
+// 문제 : 골드 4 괄호 추가하기
+// https://www.acmicpc.net/problem/16637
+// 못풀어서 참고함 : https://steady-coding.tistory.com/36
+// 뒤에 괄호가 있냐 없냐 (있으면 앞에 괄호가 없는거고 없으면 있어도되고 없어도 되고 상관없음, 똑같음)
+// 메모리 : 11,556KB, 시간 : 76ms, 코드 길이 : 1,300B
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static int n, result = Integer.MIN_VALUE;
+	public static char[] oper;
+	public static int[] number;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		n = Integer.parseInt(br.readLine());
+
+		char[] input = br.readLine().toCharArray();
+		number = new int[n / 2 + 1];
+		oper = new char[n / 2];
+
+		for (int i = 0; i < n; i++) {
+			if (i % 2 == 0) {
+				number[i / 2] = input[i] - '0';
+			} else {
+				oper[i / 2] = input[i];
+			}
+		}
+
+		dfs(0, number[0]);
+
+		System.out.println(result);
+
+	}
+
+	public static void dfs(int num, int sum) {
+		if (num == oper.length) {
+			result = Math.max(result, sum);
+			return;
+		}
+
+		// 뒤에 괄호가 없는 경후
+		int r = cal(oper[num], sum, number[num + 1]);
+		dfs(num + 1, r);
+
+		// 있는 경우
+		if (num + 1 < oper.length) {
+			r = cal(oper[num + 1], number[num + 1], number[num + 2]);
+			r = cal(oper[num], sum, r);
+			dfs(num + 2, r);
+		}
+
+	}
+
+	public static int cal(char oper, int pre, int next) {
+		int result = 0;
+		switch (oper) {
+		case '+':
+			result = pre + next;
+			break;
+		case '-':
+			result = pre - next;
+			break;
+		case '*':
+			result = pre * next;
+			break;
+		}
+		return result;
+
+	}
+
+}
