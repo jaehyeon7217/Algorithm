@@ -1,0 +1,117 @@
+// 문제 : 17143 골드 1, 낚시왕
+// https://www.acmicpc.net/source/50120498
+// 메모리 76,188kb, 시간 : 664ms, 코드길이 2,556b
+// 상어의 움직임이 크기 때문에 모듈라 연산을 사용하여 계산해서 코드에 적용하여야 함.
+// 객체의 2차원 배열을 통해 맵으로 구성
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	
+	public static int r, c, m, result = 0;
+	public static shark[][] map;
+	public static int[] dx = {-1,1,0,0};
+	public static int[] dy = {0,0,1,-1};
+	
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		
+		r = Integer.parseInt(st.nextToken());
+		c = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		map = new shark[r][c];
+		
+		for(int i=0;i<m;i++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			map[Integer.parseInt(st.nextToken())-1][Integer.parseInt(st.nextToken())-1] = new shark(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())-1,Integer.parseInt(st.nextToken()));
+		}
+		
+		for(int t = 0; t<c; t++) {
+			// 낚시왕이 오른쪽으로 한 칸 이동한다.
+			//낚시왕이 있는 열의 상어 중 제일 x값이 작은 상어를 잡는다.
+			int targetIndex = -1;
+			int targetX = r;
+			for(int i=0;i<r;i++) {
+				if(map[i][t] != null) {
+					result += map[i][t].z;
+					map[i][t] = null;
+					break;
+				}
+			}
+			// 상어가 이동한다.
+			shark[][] temp = new shark[r][c];
+			for(int i=0;i<r;i++) {
+				for(int j=0;j<c;j++) {
+					if(map[i][j] != null) {
+						// 이동
+						int x = i;
+						int y = j;
+						int d = map[i][j].d;
+						int s;
+						if(d<2) {
+							s = map[i][j].s%(r*2-2);
+						}else {
+							s = map[i][j].s%(c*2-2);
+						}
+						for(int k=0;k<s;k++) {
+							x += dx[d];
+							y += dy[d];
+							if(x<0 || x>=r || y<0 || y>=c) {
+								x -= dx[d];
+								y -= dy[d];
+								k--;
+								if(d<2) d = d==0 ? 1: 0;
+								else d = d==2 ? 3 : 2;
+							}
+						}
+						
+						
+						map[i][j].d = d;
+						if(temp[x][y] != null) {
+							if(temp[x][y].z < map[i][j].z) {
+								temp[x][y] = new shark(map[i][j].s, d, map[i][j].z);
+							}
+						}else {
+							temp[x][y] = new shark(map[i][j].s, d, map[i][j].z);
+						}
+					}
+				}
+			}
+			map = new shark[r][c];
+			for(int i=0;i<r;i++) {
+				for(int j=0;j<c;j++) {
+					if(temp[i][j] !=null)
+						map[i][j] = new shark(temp[i][j].s,temp[i][j].d,temp[i][j].z);
+				}
+			}
+			
+			
+		}
+		
+		System.out.println(result);
+	}
+	
+	public static class shark {
+		int s;
+		int d;
+		int z;
+		public shark(int s, int d, int z) {
+			super();
+			this.s = s;
+			this.d = d;
+			this.z = z;
+		}
+		@Override
+		public String toString() {
+			return "shark [s=" + s + ", d=" + d + ", z=" + z + "]";
+		}
+		
+		
+	}
+	
+	
+}
