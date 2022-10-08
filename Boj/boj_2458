@@ -1,0 +1,59 @@
+// 문제 : 2458, 키순서, 골드 4
+// https://www.acmicpc.net/problem/2458
+// 메모리 : 34,640kb, 시간 480ms, 코드길이 1,093B
+// 잘 몰라서 찾아봤음, 플로이드 워샬 알고리즘으로 해결하면 됨
+// 맨 마지막에 나를 제외한 모든 연결지점이 있다면 나의 키를 유추 가능
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static int n, m;
+	public static boolean[][] map;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+
+		st = new StringTokenizer(br.readLine(), " ");
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		map = new boolean[n][n];
+		
+		for(int i=0;i<m;i++) {
+			st=new StringTokenizer(br.readLine(), " ");
+			int a = Integer.parseInt(st.nextToken())-1;
+			int b = Integer.parseInt(st.nextToken())-1;
+			
+			map[a][b] = true;
+		}
+		
+		for(int k=0;k<n;k++) {
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					if( map[i][k] && map[k][j])
+						map[i][j] = true;;
+				}
+			}
+		}
+		
+		
+		int[] cnt = new int[n];
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				if(map[i][j] || map[j][i])
+					cnt[i]++;
+			}
+		}
+		int result = 0;
+		for(int i=0;i<n;i++) {
+			if( cnt[i] == n-1) {
+				result++;
+			}
+		}
+		
+		System.out.println(result);
+	}
+
+}
