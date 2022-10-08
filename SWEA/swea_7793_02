@@ -1,0 +1,125 @@
+// 문제 : 7793. 오! 나의 여신님 , D5
+// https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWsBQpPqMNMDFARG
+// 메모리 : 26,116kb, 실행시간 123ms, 코드길이 2,509
+// 큐 사이즈를 통해서 관리
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+	
+	public static int n, m;
+	public static char[][] map;
+	public static int[] dx = { 1, -1, 0, 0 };
+	public static int[] dy = { 0, 0, 1, -1 };
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+
+		int T = Integer.parseInt(br.readLine());
+
+		for (int t = 1; t <= T; t++) {
+			st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken());
+			m = Integer.parseInt(st.nextToken());
+
+			Queue<XY> start = new LinkedList<>();
+			XY des = null;
+			Queue<XY> q = new LinkedList<>();
+
+			map = new char[n][m];
+			
+			for (int i = 0; i < n; i++) {
+				map[i] = br.readLine().toCharArray();
+				for (int j = 0; j < m; j++) {
+					if (start.isEmpty() && map[i][j] == 'S')
+						start.offer(new XY(i, j));
+					if ( des == null && map[i][j] == 'D')
+						des = new XY(i, j);
+					if (map[i][j] == '*')
+						q.offer(new XY(i, j));
+				}
+			}
+			
+			int cnt = 0;
+			loop : while (true) {
+				cnt++;
+				int size = q.size();
+				for(int s = 0; s<size; s++) {
+					XY temp = q.poll();
+					
+					for (int i = 0; i < 4; i++) {
+						int x = temp.x + dx[i];
+						int y = temp.y + dy[i];
+						
+						if (x < 0 || y < 0 || x >= n || y >= m)
+							continue;
+						if (map[x][y] == 'D' || map[x][y] == 'X' || map[x][y] == '*')
+							continue;
+						map[x][y] = '*';
+						q.offer(new XY(x,y));
+					}
+				}
+				
+				
+				size = start.size();
+				if(size == 0) {
+					cnt = -1;
+					break loop;
+				}
+				
+				for(int s = 0; s<size; s++) {
+					XY temp = start.poll();
+
+					for (int i = 0; i < 4; i++) {
+						int x = temp.x + dx[i];
+						int y = temp.y + dy[i];
+						
+						if(x== des.x && y == des.y) {
+							break loop;
+						}
+						
+						if (x < 0 || y < 0 || x >= n || y >= m)
+							continue;
+						if (map[x][y] == '*' || map[x][y] == 'X'|| map[x][y] == 'S')
+							continue;
+						map[x][y] = 'S';
+						start.offer(new XY(x,y));
+					}
+				}
+				
+
+			}
+			
+			sb.append("#" + t + " " + (cnt == -1 ? "GAME OVER" : cnt) + "\n");
+
+		}
+
+		System.out.println(sb.toString());
+
+	}
+
+	public static class XY {
+		int x;
+		int y;
+
+		public XY(int x, int y) {
+			super();
+			this.x = x;
+			this.y = y;
+		}
+
+	}
+	
+	public static void pr() {
+		System.out.println();
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				System.out.print(map[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+}
