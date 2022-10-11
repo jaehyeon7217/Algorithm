@@ -1,0 +1,133 @@
+// 문제 : 활주로 건설, 모의 SW 역량테스트
+// https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWIeW7FakkUDFAVH
+// 무지성 복붙을 조심하자!!!
+// 메모리 : 24,584kb, 시간 118ms, 코드 길이 2,680
+import java.io.*;
+import java.util.*;
+
+
+public class Solution {
+	
+	public static int n, x, result;
+	public static int[][] map;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		int t = Integer.parseInt(br.readLine());
+		
+		for(int T=1;T<=t ;T++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			n = Integer.parseInt(st.nextToken());
+			x = Integer.parseInt(st.nextToken());
+			result = 0;
+			
+			map = new int[n][n];
+			
+			for(int i=0;i<n;i++) {
+				st = new StringTokenizer(br.readLine(), " ");
+				for(int j=0;j<n;j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+      
+      ////////////////////////////////////// 로우 우선  
+			for(int i=0;i<n;i++) {
+				int height = map[i][0];
+				int length = 1;
+				for(int j=1; j<n; j++) {
+					if(map[i][j] > height+1 || map[i][j] < height-1) 
+						break;
+					else if(map[i][j] == height){
+						length++;
+					}
+					else if(map[i][j] == height+1) {
+						if(length >= x) {
+							height = map[i][j];
+							length = 1;
+						}
+						else break;
+					}else if(map[i][j] == height-1) {
+						int tempHeight = map[i][j];
+						int tempLength = 1;
+						int tempIndex = n-1;
+						for(int k=j+1; k<n;k++){
+							if(tempHeight == map[i][k]) {
+								tempLength++;
+							}
+							else break;
+							
+							if(tempLength == x) {
+								tempIndex = k;
+								break;
+							}
+						}
+						if(tempLength >= x) {
+							height = map[i][j];
+							j = tempIndex;
+							length = 0;
+						}
+						else break;
+					}
+					
+					if(j==n-1) {
+						result++;
+					}
+				}
+			} 
+			/////////////////////////////////////////////////////// 컬럼 우선 
+			for(int j=0;j<n;j++) {
+				int height = map[0][j];
+				int length = 1;
+				for(int i=1; i<n; i++) {
+					if(map[i][j] > height+1 || map[i][j] < height-1) 
+						break;
+					else if(map[i][j] == height){
+						length++;
+					}
+					else if(map[i][j] == height+1) {
+						if(length >= x) {
+							height = map[i][j];
+							length = 1;
+						}
+						else break;
+					}else if(map[i][j] == height-1) {
+						int tempHeight = map[i][j];
+						int tempLength = 1;
+						int tempIndex = n-1;
+						for(int k=i+1; k<n;k++){
+							if(tempHeight == map[k][j]) {
+								tempLength++;
+							}
+							else break;
+							
+							if(tempLength == x) {
+								tempIndex = k;
+								break;
+							}
+						}
+						if(tempLength >= x) {
+							height = map[i][j];
+							i = tempIndex;
+							length = 0;
+						}
+						else break;
+					}
+					
+					if(i==n-1) {
+						result++;
+					}
+				}
+			}
+			
+			
+			sb.append("#"+T+ " " + result+ "\n");
+		}
+		
+		System.out.println(sb.toString());
+	}
+	
+
+}
