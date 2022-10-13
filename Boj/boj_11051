@@ -1,0 +1,56 @@
+// 문제 : 이항 계수 2, 실버 3
+// https://www.acmicpc.net/problem/11051
+// 메모리 : 11,516kb 시간 : 72ms, 코드길이 963b
+// 페르마의 소정리
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static int n, k;
+	public static int mod = 10007;
+	public static long[] fact;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		
+		n= Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
+		
+		fact = new long[n+1];
+		
+		fact[0] = fact[1] = 1;
+		
+		for(int i=2;i<n+1;i++) {
+			fact[i] = (fact[i-1]*i)%mod;
+		}
+		
+		long result = 1;
+		
+		result = fact[n];
+		
+		result *= func( fact[n-k] * fact[k], mod-2);
+		
+		result %= mod;
+		
+		System.out.println(result);
+		
+	}
+	
+	public static long func(long num, int s) {
+		if(s == 0) return 1;
+		else if( s== 1) return num;
+		
+		if(s%2==0) {
+			long temp = func(num,s/2)%mod;
+			return (temp*temp)%mod;
+		}
+		
+		long temp = func(num,s-1)%mod;
+		return (num * temp) %mod;
+		
+		
+	}
+	
+}
