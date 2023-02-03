@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static int[][] map;
+    public static int n, m;
+    public static int[][] check;
+
+    public static void main(String args[]) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+
+        map = new int[n][n];
+        check = new int[n][n];
+
+        for(int i=0;i<m;i++){
+            st = new StringTokenizer(br.readLine());
+            int from = Integer.parseInt(st.nextToken())-1;
+            int to = Integer.parseInt(st.nextToken())-1;
+            int value = Integer.parseInt(st.nextToken());
+            map[from][to] = value;
+            map[to][from] = value;
+            check[from][to] = value;
+            check[to][from] = value;
+        }
+        st = new StringTokenizer(br.readLine());
+        int a = Integer.parseInt(st.nextToken())-1;
+        int b = Integer.parseInt(st.nextToken())-1;
+
+
+       // 최단거리 조사
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    if(check[i][j] == 0) check[i][j] = 987654321;
+                    if(check[i][j] > check[i][k] + check[k][j])
+                            check[i][j] = check[i][k] + check[k][j];
+
+                }
+
+            }
+        }
+
+        if (check[0][a] >= 9876543 || check[a][b] >= 9876543 || check[b][n-1] >= 9876543) {
+            System.out.println("-1");
+            return ;
+        }
+
+        if(a==0 && b != n-1){
+            System.out.println(check[0][b] + check[b][n-1]);
+
+        }else if(a!= 0 && b == n-1){
+            System.out.println(check[0][a] + check[a][b] );
+        }else if(a == 0 && b== n-1){
+            System.out.println(check[0][n-1]);
+        }else {
+            System.out.println(Math.min(check[0][a] + check[a][b] + check[b][n - 1], check[0][b] + check[a][b] + check[a][n - 1]));
+        }
+
+    }
+}
