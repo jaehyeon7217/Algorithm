@@ -9,6 +9,7 @@ public class Main {
     public static void main(String args[]) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
 
         n = Integer.parseInt(br.readLine());
 
@@ -31,10 +32,12 @@ public class Main {
 
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
-                System.out.print(map[i][j] + " ");
+                sb.append(map[i][j] + " ");
             }
-            System.out.println();
+           sb.append("\n");
         }
+
+        System.out.println(sb.toString());
 
     }
 }
