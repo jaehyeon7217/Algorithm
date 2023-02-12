@@ -15,7 +15,7 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        TreeMap<String, String> map = new TreeMap<>();
+        HashMap<String, String> map = new HashMap<>();
 
         for(int i=0;i<n;i++){
             st = new StringTokenizer(br.readLine());
