@@ -65,13 +65,11 @@ public class Main {
         }else if(count < 3)
             return;
 
-
         for(int i=0;i<4;i++){
             int x = cx + dx[i];
             int y = cy + dy[i];
 
             if(x <0 || x>=n || y<0 || y>= m) continue;
-            if(count - 1 != 3) continue;
             max = Math.max(max, sum - map[x][y]);
         }
 
