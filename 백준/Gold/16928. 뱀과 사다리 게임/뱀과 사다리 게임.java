@@ -22,7 +22,7 @@ public class Main{
             map[start]= end;
         }
 
-        Queue<node> q = new LinkedList<>();
+        PriorityQueue<node> q = new PriorityQueue<>();
         q.offer(new node(1,0));
 
         for(int i=0;i<101;i++){
