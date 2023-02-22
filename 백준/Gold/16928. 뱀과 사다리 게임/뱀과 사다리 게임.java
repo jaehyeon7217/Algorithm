@@ -29,13 +29,11 @@ public class Main{
             check[i] = Integer.MAX_VALUE;
         }
 
-        int count=0;
 
         while(!q.isEmpty()){
             node temp = q.poll();
 
             if(temp.now == 100){
-                count = temp.count;
                 break;
             }
             for(int i=1;i<7;i++){
@@ -56,7 +54,7 @@ public class Main{
 
         }
 
-        System.out.println(count);
+        System.out.println(check[100]);
 
 
     }
