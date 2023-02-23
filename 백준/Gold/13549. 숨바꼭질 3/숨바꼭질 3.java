@@ -26,8 +26,10 @@ public class Main{
             int now = temp.now;
             int count = temp.count;
 
-            if(now == m)
-                result = Math.min(result,count);
+            if(now == m) {
+                result = Math.min(result, count);
+                break;
+            }
 
 
             if(now*2 <=100000 && check[now*2]>count){
