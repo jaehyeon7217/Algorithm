@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
 
-    public static int n, result;
+    public static int n, result, maxNode;
     public static ArrayList<node>[] map;
     public static boolean[] check;
 
@@ -28,43 +28,35 @@ public class Main {
             map[end].add(new node(start, value));
 
         }
+        maxNode = 0;
+        result = 0;
+        check = new boolean[n];
+        check[0] = true;
+        dfs(0,0);
 
-        int maxNode = bfs(0);
-
-        bfs(maxNode);
+        check = new boolean[n];
+        check[maxNode]=true;
+        dfs(maxNode, 0);
 
         System.out.println(result);
 
     }
 
-    public static int bfs(int x){
-        int maxNode = 0;
-        result = 0;
-        Queue<node> q = new LinkedList<>();
-        check = new boolean[n];
-        q.add(new node(x,0));
-        check[x] = true;
+    public static void dfs(int num, int sum){
+        if(result < sum){
+            result = sum;
+            maxNode = num;
+        }
 
-        while(!q.isEmpty()){
-            node temp = q.poll();
-
-            if(result < temp.value){
-                maxNode = temp.x;
-                result = temp.value;
-            }
-
-            for(int i=0;i<map[temp.x].size();i++){
-                int dx = map[temp.x].get(i).x;
-                int dValue = map[temp.x].get(i).value;
-                if(!check[dx]){
-                    check[dx] = true;
-                    q.offer(new node(dx, dValue + temp.value));
-                }
+        for(int i=0;i<map[num].size();i++){
+            if(!check[map[num].get(i).x]){
+                check[map[num].get(i).x] = true;
+                dfs(map[num].get(i).x, sum + map[num].get(i).value);
             }
         }
 
-        return maxNode;
     }
+
 
     public static class node{
         int x;
