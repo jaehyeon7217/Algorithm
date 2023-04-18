@@ -31,13 +31,15 @@ public class Main {
     }
 
     public static int dfs(int x, int y){
+        // 도착하면 1
         if(x == n-1 && y == m-1)
             return 1;
 
-
+        // 이미 끝까지 도달 한 포인트가 있으면 그 값 반환
         if(check[x][y] != -1)
             return check[x][y];
 
+        // -1에서 0으로 초기화
         check[x][y] = 0;
 
         int value = map[x][y];
@@ -49,10 +51,12 @@ public class Main {
             if(a<0|| a>=n || b<0 || b>=m) continue;
             if(map[a][b] >= value) continue;
 
+            // 끝점과 연결된 포인트 갯수를 합산
             check[x][y] += dfs(a,b);
 
         }
 
+        // 이 지점에서 끝점으로 가는 갯수 반환
         return check[x][y];
     }
 
