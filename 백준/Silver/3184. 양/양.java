@@ -13,7 +13,6 @@ public class Main {
     public static void main(String args[]) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        StringBuilder sb = new StringBuilder();
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
@@ -67,8 +66,7 @@ public class Main {
             }
         }
 
-        sb.append(r+ " " + c);
-        System.out.println(sb.toString());
+        System.out.println(r+ " " + c);
 
 
 
