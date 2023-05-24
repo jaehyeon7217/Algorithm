@@ -3,61 +3,96 @@ import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
+    public static int n, m, k;
+    public static long[] map;
+    public static long[] tree;
 
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringBuilder sb = new StringBuilder();
 
-		long[][] map = new long[n][3];
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
-		map[0][0] = map[0][1] = Long.parseLong(br.readLine());
-		for (int i = 1; i < n; i++) {
-			map[i][0] = Long.parseLong(br.readLine());
-			map[i][1] = map[i - 1][1] + map[i][0];
-		}
+        map = new long[n];
+        tree = new long[findSize()];
 
-		int[] member = new int[m];
-		boolean[] use = new boolean[n];
-		int top = 0;
+        for (int i = 0; i < n; i++) {
+            map[i] = Long.parseLong(br.readLine());
+        }
 
-		for (int i = 0; i < m + k; i++) {
-			st = new StringTokenizer(br.readLine(), " ");
-			int check = Integer.parseInt(st.nextToken());
-			int index = Integer.parseInt(st.nextToken()) - 1;
-			long index2 = Long.parseLong(st.nextToken());
+        makeTree(0, n - 1, 1);
 
-			if (check == 1) {
-				if(!use[index]) {
-					member[top++] = index;
-					use[index] = true;
-					
-				}
-				map[index][2] = index2 - map[index][0];
-			}
+        for (int i = 0; i < m + k; i++) {
+            st = new StringTokenizer(br.readLine());
+            int flag = Integer.parseInt(st.nextToken());
+            int node = Integer.parseInt(st.nextToken());
+            long value = Long.parseLong(st.nextToken());
 
-			else {
-				long sum = 0L;
-				if (index == 0)
-					sum = map[(int) index2 - 1][1];
-				else
-					sum = map[(int) index2 - 1][1] - map[index - 1][1];
-				
-				for (int j = 0; j < top; j++) {
-					if (member[j] >= index && member[j] <= (index2 - 1)) {
-						sum += map[member[j]][2];
-					}
-				}
-				sb.append(sum + "\n");
-			}
-		}
-		System.out.println(sb);
+            if (flag == 1) {
+                long diff = value - map[node - 1];
+                map[node - 1] = value;
+                update(0, n - 1, node - 1, 1, diff);
+            } else {
+                sb.append(findTree(0, n - 1, 1, node - 1, value - 1) + "\n");
+            }
 
-		br.close();
+        }
 
-	}
+        System.out.println(sb.toString());
+
+    }
+
+    public static long findTree(int start, int end, int node, int left, long right) {
+        if (end < left || start > right) {
+            return 0;
+        }
+        if (start >= left && end <= right) {
+            return tree[node];
+        }
+
+        int mid = (start + end) / 2;
+
+        long result = findTree(start, mid, node * 2, left, right) + findTree(mid + 1, end, node * 2 + 1, left, right);
+
+        return result;
+
+    }
+
+    public static void update(int start, int end, int index, int node, long diff) {
+        if (start > index || end < index) return;
+
+        int mid = (start + end) / 2;
+
+        tree[node] += diff;
+
+        if (start == end) return;
+
+        update(start, mid, index, node * 2, diff);
+        update(mid + 1, end, index, node * 2 + 1, diff);
+
+    }
+
+    public static long makeTree(int start, int end, int node) {
+        if (start == end) {
+            return tree[node] = map[start];
+        }
+
+        int mid = (start + end) / 2;
+
+        return tree[node] = makeTree(start, mid, node * 2) + makeTree(mid + 1, end, node * 2 + 1);
+
+    }
+
+    public static int findSize() {
+        int size = 2;
+        while (size < n) {
+            size *= 2;
+        }
+        return size * 2;
+    }
+
 
 }
