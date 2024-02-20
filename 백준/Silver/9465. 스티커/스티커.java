@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
         for (int t = 0; t < T; t++) {
@@ -38,12 +37,11 @@ public class Main {
                 dp[1][i] = Math.max(dp[0][i - 2], dp[0][i - 1]) + arr[1][i];
             }
             result = Math.max(dp[1][N - 1], dp[0][N - 1]);
-            
 
-            sb.append(result + "\n");
+
+            System.out.println(result);
         }
 
-        System.out.println(sb.toString());
     }
 
 
