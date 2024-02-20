@@ -38,6 +38,10 @@ public class Main {
             int N = Integer.parseInt(br.readLine());
             mbti = new int[16];
             st = new StringTokenizer(br.readLine(), " ");
+            if(N>32){
+                sb.append("0\n");
+                continue;
+            }
             while (st.hasMoreTokens()) {
                 char[] temp = st.nextToken().toCharArray();
                 int mbtiNo = 0;
@@ -79,33 +83,24 @@ public class Main {
     public static int checkDistance(int a, int b) {
         int distance = 0;
 
-        for (int i = 8; i > 0; i /= 2) {
-            if (a >= i && b >= i) {
-                a -= i;
-                b -= i;
-            } else if (a >= i && b < i) {
-                a -= i;
-                distance++;
-            } else if (a < i && b >= i) {
-                b -= i;
-                distance++;
-            }
+        int temp = a^b;
+
+        if(temp >= 8){
+            distance++;
+            temp-=8;
+        }
+        if(temp >=4){
+            distance++;
+            temp-=4;
+        }
+        if(temp>=2){
+            distance++;
+            temp-=2;
+        }
+        if(temp>=1){
+            distance++;
         }
 
         return distance;
     }
-//    public static int calc(int a, int b, int c){
-//        int re=0;
-//        if(a>=c && b>= c){
-//            a-=c;
-//            b-=c;
-//        }else if(a>=c && b<c){
-//            a-=c;
-//            re++;
-//        }else if(a<c && b>=c){
-//            b-=c;
-//            re++;
-//        }
-//        return re;
-//    }
 }
