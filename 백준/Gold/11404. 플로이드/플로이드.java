@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
+    public static final int MAX_VALUE = 1000000001;
     public static int n, m;
     public static int[][] dis;
     public static ArrayList<ArrayList<XY>> bus;
@@ -35,7 +35,7 @@ public class Main {
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(i==j) dis[i][j] = 0;
-                else dis[i][j] = Integer.MAX_VALUE;
+                else dis[i][j] = MAX_VALUE;
             }
         }
 
@@ -45,7 +45,7 @@ public class Main {
 
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
-                sb.append((dis[i][j] == Integer.MAX_VALUE ? "0" : dis[i][j]) + " ");
+                sb.append((dis[i][j] == MAX_VALUE ? "0" : dis[i][j]) + " ");
             }
             sb.append("\n");
         }
