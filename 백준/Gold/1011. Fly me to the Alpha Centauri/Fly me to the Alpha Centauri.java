@@ -48,16 +48,4 @@ public class Main {
 
 
     }
-
-    public static class node {
-        int now;
-        int dis;
-        int count;
-
-        public node(int now, int dis, int count) {
-            this.now = now;
-            this.dis = dis;
-            this.count = count;
-        }
-    }
 }
