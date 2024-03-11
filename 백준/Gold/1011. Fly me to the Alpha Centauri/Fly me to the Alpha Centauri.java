@@ -17,14 +17,9 @@ public class Main {
 
             int gap = e - s;
 
-            int max = (int)Math.sqrt(gap);
+            double max = Math.sqrt(gap);
 
-            if(gap == max*max)
-                sb.append(((max*2) - 1) + "\n");
-            else if(gap <= max*max + max)
-                sb.append(max*2+ "\n");
-            else
-                sb.append(max*2+1+ "\n");
+            sb.append((int)Math.ceil(2*max -1) + "\n");
 
         }// t번 만큼 반복 끝
 
