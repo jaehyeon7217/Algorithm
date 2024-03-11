@@ -17,30 +17,14 @@ public class Main {
 
             int gap = e - s;
 
-            if (gap <= 2) {
-                sb.append(gap + "\n");
-            } else {
-                long now = 3;
-                int value = 3;
-                int loop = 2;
-                boolean flag = true;
-                while (true) {
-                    if (gap < now + loop) {
-                        sb.append(value + "\n");
-                        break;
-                    }
-                    if (flag) {
-                        now += loop;
-                        value++;
-                        flag = false;
-                    } else {
-                        now += loop;
-                        value++;
-                        loop++;
-                        flag = true;
-                    }
-                }
-            }
+            int max = (int)Math.sqrt(gap);
+
+            if(gap == max*max)
+                sb.append(((max*2) - 1) + "\n");
+            else if(gap <= max*max + max)
+                sb.append(max*2+ "\n");
+            else
+                sb.append(max*2+1+ "\n");
 
         }// t번 만큼 반복 끝
 
