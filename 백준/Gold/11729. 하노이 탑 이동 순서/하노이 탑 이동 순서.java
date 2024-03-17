@@ -33,7 +33,7 @@ public class Main {
 
         func(n, 1, 2, 3);
 
-        System.out.println((int)Math.pow(2.0,n) - 1);
+        System.out.println((1<<n)-1 );
         System.out.println(sb.toString());
 
 
