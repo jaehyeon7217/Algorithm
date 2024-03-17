@@ -40,11 +40,9 @@ public class Main {
     }
 
     public static void func(int n, int start, int mid, int end) {
-        if (n == 1) {
-            sb.append(start + " " + end + "\n");
+        if (n == 0) {
             return;
         }
-
         func(n - 1, start, end, mid);
         sb.append(start + " " + end + "\n");
         func(n - 1, mid, start, end);
