@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
     public static StringBuilder sb = new StringBuilder();
-    public static int count=0;
+
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -31,42 +31,25 @@ public class Main {
 
          */
 
-        func(n, 1, 3);
+        func(n, 1, 2, 3);
 
-        System.out.println(count);
+        System.out.println((int)Math.pow(2.0,n) - 1);
         System.out.println(sb.toString());
 
 
-
-
     }
 
-    public static void func(int n, int start, int end){
-        if( n==1 ){
-            move(start, end);
+    public static void func(int n, int start, int mid, int end) {
+        if (n == 1) {
+            sb.append(start + " " + end + "\n");
             return;
         }
 
-        boolean[] check = new boolean[3];
-
-        check[start-1]= true;
-        check[end-1]= true;
-
-        for(int i=0;i<3;i++){
-            if(!check[i]){
-                func(n-1, start, i+1);
-                move(start, end);
-                func(n-1, i+1, end);
-            }
-        }
+        func(n - 1, start, end, mid);
+        sb.append(start + " " + end + "\n");
+        func(n - 1, mid, start, end);
 
     }
-
-    public static void move(int start, int end){
-        count++;
-        sb.append(start+  " " + end + "\n");
-    }
-
 
 
 }
