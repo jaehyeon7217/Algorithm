@@ -20,13 +20,7 @@ public class Main {
             int age = Integer.parseInt(st.nextToken());
             int weight = Integer.parseInt(st.nextToken());
 
-            boolean flag = true;
-
-            if(age > 17 || weight >= 80){
-                flag = false;
-            }
-
-            sb.append(name + " " + (flag ? "Junior" : "Senior") + "\n");
+            sb.append(name + " " + ( (age > 17 || weight >= 80) ? "Senior" : "Junior") + "\n");
 
 
         }
