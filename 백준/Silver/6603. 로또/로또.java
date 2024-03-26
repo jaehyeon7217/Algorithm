@@ -5,7 +5,8 @@ public class Main {
 
     public static int k;
     public static int[] n;
-    public static boolean[] check;
+    public static int[] pick;
+    public static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -19,31 +20,35 @@ public class Main {
                 break;
 
             n = new int[k];
-            check = new boolean[k];
+            pick = new int[6];
             for(int i=0;i<k;i++){
                 n[i] = Integer.parseInt(st.nextToken());
             }
 
-            solve(new StringBuilder(), 0, 0);
+            solve(0, 0);
 
-            System.out.println();
+            sb.append("\n");
 
         }
+        System.out.println(sb.toString());
 
 
 
     }
-    public static void solve(StringBuilder sb, int pt, int now){
+    public static void solve(int pt, int now){
         if(pt == 6){
-            System.out.println(sb.toString());
+            for(int i : pick){
+                sb.append(i + " ");
+            }
+
+            sb.append("\n");
+
             return;
         }
 
         for(int i=now;i<k;i++){
-            if(check[i]) continue;
-            check[i] = true;
-            solve(new StringBuilder().append(sb.toString() + n[i] + " "), pt+1, i+1);
-            check[i] = false;
+            pick[pt] = n[i];
+            solve(pt+1, i+1);
 
         }
 
