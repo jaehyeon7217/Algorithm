@@ -14,14 +14,8 @@ public class Main {
         int e = Integer.parseInt(st.nextToken());
         int f = Integer.parseInt(st.nextToken());
 
-        bp:for(int i=-999; i<1000;i++){
-            for(int j=-999;j<1000;j++){
-                if(((a*i) + (b*j) == c) && ((d*i) + (e*j) == f)) {
-                    System.out.println(i + " " + j);
-                    break bp;
-                }
-            }
-        }
+
+        System.out.println(((c*e-f*b)/(a*e-d*b)) + " " + ((c*d -  a*f)/ (b*d-a*e)));
 
 
 
