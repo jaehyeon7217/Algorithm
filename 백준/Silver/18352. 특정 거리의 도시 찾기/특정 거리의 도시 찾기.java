@@ -39,6 +39,8 @@ public class Main {
         while(!q.isEmpty()){
             int temp = q.poll();
 
+            if(target[temp] >=k) continue;
+
             int size = list[temp].size();
 
             for(int i=0;i<size;i++){
