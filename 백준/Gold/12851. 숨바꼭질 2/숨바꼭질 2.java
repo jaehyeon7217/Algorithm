@@ -17,15 +17,17 @@ public class Main {
         Arrays.fill(check, 1234567890);
         check[n] = 0;
 
-        PriorityQueue<node> pq = new PriorityQueue<>();
-
+//        PriorityQueue<node> pq = new PriorityQueue<>();
+        Queue<node> pq = new  LinkedList<>();
         pq.offer(new node(n,0));
 
         while(!pq.isEmpty()){
             node temp = pq.poll();
+//            System.out.println("x  = " + temp.x + ", t = " + temp.t);
 
             if(temp.t >min){
-                break;
+//                break;
+                continue;
             }
 
             if(temp.x == k){
