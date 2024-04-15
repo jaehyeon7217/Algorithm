@@ -26,8 +26,7 @@ public class Main {
 //            System.out.println("x  = " + temp.x + ", t = " + temp.t);
 
             if(temp.t >min){
-//                break;
-                continue;
+                break;
             }
 
             if(temp.x == k){
