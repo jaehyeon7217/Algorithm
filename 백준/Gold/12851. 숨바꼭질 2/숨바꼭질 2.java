@@ -12,6 +12,11 @@ public class Main {
 
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
+        
+        if(k<=n){
+            System.out.println((n-k) +"\n1");
+            System.exit(0);
+        }
 
         int[] check = new int[100001];
         Arrays.fill(check, 1234567890);
