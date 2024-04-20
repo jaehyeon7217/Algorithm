@@ -3,9 +3,10 @@ import java.util.*;
 
 public class Main {
 
-    public static int n, m, start, end;
-    public static ArrayList<ArrayList<node>> bus;
-    public static int[] check;
+    static int n, m;
+    static ArrayList<ArrayList<node>> list;
+    static int[] visit;
+
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,80 +15,76 @@ public class Main {
         n = Integer.parseInt(br.readLine());
         m = Integer.parseInt(br.readLine());
 
-        bus = new ArrayList<>();
+        list = new ArrayList<>();
+
         for(int i=0;i<n;i++){
-            bus.add(new ArrayList<>());
+            list.add(new ArrayList<>());
         }
-        check = new int[n];
-        Arrays.fill(check,1234567890);
+
+        visit = new int[n];
+        Arrays.fill(visit, 1234567890);
 
         for(int i=0;i<m;i++){
             st = new StringTokenizer(br.readLine());
+            int from = Integer.parseInt(st.nextToken())-1;
+            int to = Integer.parseInt(st.nextToken())-1;
+            int fee = Integer.parseInt(st.nextToken());
 
-            int s = Integer.parseInt(st.nextToken())-1;
-            int e = Integer.parseInt(st.nextToken())-1;
-            int f = Integer.parseInt(st.nextToken());
-
-            bus.get(s).add(new node(e,f));
-
+            list.get(from).add(new node(to, fee));
         }
 
         st = new StringTokenizer(br.readLine());
-
-        start = Integer.parseInt(st.nextToken())-1;
-        end = Integer.parseInt(st.nextToken())-1;
-
-        check[start] = 0;
+        int start = Integer.parseInt(st.nextToken())-1;
+        int end = Integer.parseInt(st.nextToken())-1;
 
         PriorityQueue<node> pq = new PriorityQueue<>();
+
         StringBuilder sb = new StringBuilder();
-        sb.append((start+1) + " ");
-        pq.add(new node(start,0,1,sb));
+        pq.add(new node(start,0,0,sb));
+        visit[start] = 0;
 
         while(!pq.isEmpty()){
             node temp = pq.poll();
 
-            if(temp.x == end){
-                StringBuilder sbTemp = new StringBuilder();
-                sbTemp.append( temp.fee + "\n");
-                sbTemp.append(temp.count + "\n");
-                sbTemp.append(temp.sb.toString() );
-                System.out.println(sbTemp);
+            if(temp.to == end){
+                System.out.println(temp.fee);
+                System.out.println(temp.count+1);
+                System.out.println(temp.sb.toString() + (temp.to+1));
                 return;
             }
 
-            int size = bus.get(temp.x).size();
+            for(int i=0;i<list.get(temp.to).size(); i++){
+                node bus = list.get(temp.to).get(i);
 
-            for(int i=0;i<size;i++){
-                node next = bus.get(temp.x).get(i);
-                if(check[next.x] <= temp.fee + next.fee) continue;
+                if(visit[bus.to] <= temp.fee+bus.fee) continue;
+                visit[bus.to] = temp.fee + bus.fee;
 
-                check[next.x] = temp.fee + next.fee;
-                StringBuilder nextSB = new StringBuilder();
-                nextSB.append(temp.sb.toString() + (next.x+1)  + " ");
-                pq.add(new node(next.x, temp.fee+next.fee, temp.count+1, nextSB));
+                pq.add(new node(bus.to, bus.fee+temp.fee, temp.count+1, new StringBuilder().append(temp.sb.toString()).append(temp.to+1).append(" ")));
 
             }
 
         }
 
+
+
+
+
     }
 
-    public static class node implements Comparable<node>{
-        int x;
+    static class node implements Comparable<node>{
+        int to;
         int fee;
+        StringBuilder sb;
         int count;
 
-        StringBuilder sb;
-
-        node(int x, int fee){
-            this(x,fee,0,null);
+        node(int to, int fee){
+            this.to = to;
+            this. fee = fee;
         }
-
-        node(int x, int fee, int count, StringBuilder sb){
-            this.x=x;
-            this.fee = fee;
-            this.count = count;
+        node(int to, int fee,int count, StringBuilder sb){
+            this.to = to;
+            this. fee = fee;
+            this. count = count;
             this.sb = sb;
         }
 
@@ -96,4 +93,5 @@ public class Main {
             return this.fee-o.fee;
         }
     }
+
 }
