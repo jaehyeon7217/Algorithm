@@ -34,9 +34,9 @@ public class Main {
         end = (endH* 3600 ) + (endM * 60) + endS;
         result = end-start;
         resultH = result/3600;
-        result = result - (resultH*3600);
+        result %= 3600;
         resultM = result/60;
-        result = result - (resultM*60);
+        result %=60;
 
         sb.append(resultH + " " + resultM + " " +result + "\n");
 
