@@ -26,7 +26,7 @@ public class Main {
         }
 
         for(int i : arr){
-            for(int j=i+i;j<max;j+=i){
+            for(int j=i+i;j<=maxRange;j+=i){
                 if(!all[j]) continue;
 
                 result[i]++;
