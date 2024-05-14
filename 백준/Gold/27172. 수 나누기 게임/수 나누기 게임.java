@@ -16,15 +16,16 @@ public class Main {
 
         arr = new int[n];
         result = new int[max];
+        int maxRange = 0;
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
             all[arr[i]]=true;
+            maxRange = Math.max(maxRange, arr[i]);
         }
 
-        for(int i=0;i<max;i++){
-            if(!all[i]) continue;
+        for(int i : arr){
             for(int j=i+i;j<max;j+=i){
                 if(!all[j]) continue;
 
