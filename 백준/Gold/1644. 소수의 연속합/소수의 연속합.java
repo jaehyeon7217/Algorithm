@@ -30,10 +30,7 @@ public class Main {
                 sosu[j] = true;
             }
         }
-        int size = 0;
-        for(int i=2;i<=n;i++){
-            if(!sosu[i]) size++;
-        }
+        int size = 283146;
         int[] arr = new int[size];
 
         int count = 0;
@@ -42,14 +39,13 @@ public class Main {
                 arr[count++] = i;
             }
         }
+        size = count;
 
         int result = 0;
         int start = 0;
-        int end = 0;
         int sum = arr[0];
         for(int i=1;i<size;i++){
             sum += arr[i];
-            end = i;
             while(sum>n){
                 sum-=arr[start++];
             }
