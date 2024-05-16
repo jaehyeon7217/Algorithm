@@ -20,27 +20,25 @@ public class Main {
 
         sosu = new boolean[n+1];
 
-        Arrays.fill(sosu, true);
-
-        sosu[0] = false;
-        sosu[1] = false;
+        sosu[0] = true;
+        sosu[1] = true;
 
         for(int i=2;i<=n;i++){
-            if(!sosu[i]) continue;
+            if(sosu[i]) continue;
 
             for(int j=i+i; j<=n;j+=i){
-                sosu[j] = false;
+                sosu[j] = true;
             }
         }
         int size = 0;
         for(int i=2;i<=n;i++){
-            if(sosu[i]) size++;
+            if(!sosu[i]) size++;
         }
         int[] arr = new int[size];
 
         int count = 0;
         for(int i=2;i<=n;i++){
-            if(sosu[i]){
+            if(!sosu[i]){
                 arr[count++] = i;
             }
         }
