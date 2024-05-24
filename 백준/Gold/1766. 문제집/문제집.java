@@ -63,15 +63,15 @@ public class Main {
 
     public static class Node implements Comparable<Node> {
         int x;
-        PriorityQueue<Node> next;
+        ArrayList<Node> next;
 
         Node(int x) {
             this.x = x;
-            next = new PriorityQueue<>();
+            next = new ArrayList<>();
         }
 
         public void offer(Node x) {
-            next.offer(x);
+            next.add(x);
         }
 
         @Override
