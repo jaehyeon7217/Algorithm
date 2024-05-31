@@ -31,11 +31,7 @@ public class Main {
         while(pt1<pt2){
 //            System.out.println("now pt1 = " + pt1 + ", pt2 = " + pt2 );
             long tempSum = abs(pt1,pt2);
-            if(tempSum == 0){
-                min = pt1;
-                max = pt2;
-                break;
-            }
+        
 
             if(sum> tempSum){
                 sum = tempSum;
