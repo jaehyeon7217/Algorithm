@@ -24,12 +24,10 @@ public class Main {
 
         int[] arr = new int[30];
 
-        int[] num = new int[n];
-
         for (int i = 0; i < n; i++) {
-            num[i] = io.nextInt();
+            int num = io.nextInt();
 
-            arr[count(num[i])]++;
+            arr[count(num)]++;
 
         }
 
