@@ -48,7 +48,8 @@ public class Main {
             if(countCheck == center) break;
         }
 
-        System.out.println(sum +1);
+        io.print(sum+1);
+        io.flushbuffer();
 
 
     }
