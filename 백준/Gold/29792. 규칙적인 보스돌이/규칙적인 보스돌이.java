@@ -52,7 +52,7 @@ public class Main {
                 for(int l=1;l<count;l++){
                     time[j+1][l] = time[j][l];
                 }
-                time[j+1][count] = Math.max(time[j+1][count-1], Math.max(time[j][count], temp.q));
+                time[j+1][count] =  Math.max(time[j][count], temp.q);
                 for(int l=count+1; l<901; l++){
                     time[j+1][l] = Math.max(time[j+1][l-1], Math.max(time[j][l-count] + temp.q , time[j][l]));
                 }
