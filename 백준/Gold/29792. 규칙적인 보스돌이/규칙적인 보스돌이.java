@@ -52,12 +52,10 @@ public class Main {
                 for(int l=1;l<count;l++){
                     time[j+1][l] = time[j][l];
                 }
-                time[j+1][count] =  Math.max(time[j][count], temp.q);
-                for(int l=count+1; l<901; l++){
+                for(int l=count; l<901; l++){
                     time[j+1][l] = Math.max(time[j][l-count] + temp.q , time[j][l]);
                 }
             }
-//            pr(time);
             best.add(time[k][900]);
         }
 
@@ -82,16 +80,5 @@ public class Main {
         }
 
     }
-
-    public static void pr(int[][] arr){
-        for(int i=0;i<k+1;i++){
-            for(int j=0;j<901;j++){
-                System.out.print(arr[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
 
 }
