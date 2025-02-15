@@ -1,18 +1,13 @@
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Date d = new Date();
-        SimpleDateFormat year = new SimpleDateFormat("yyyy");
-        SimpleDateFormat month = new SimpleDateFormat("MM");
-        SimpleDateFormat day = new SimpleDateFormat("dd");
-
+        StringTokenizer st = new StringTokenizer(LocalDateTime.now().toLocalDate().toString(), "-");
         StringBuilder sb = new StringBuilder();
-
-        sb.append(year.format(d)+"\n" + month.format(d) + "\n" + day.format(d));
+        sb.append(st.nextToken()+"\n"+st.nextToken()+"\n"+st.nextToken());
         System.out.println(sb);
     }
 
