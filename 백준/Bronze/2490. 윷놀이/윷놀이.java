@@ -8,26 +8,19 @@ public class Main {
         StringTokenizer st;
         StringBuilder sb = new StringBuilder();
 
+        String ans = "EABCD";
+
         for(int i=0;i<3;i++){
             st = new StringTokenizer(br.readLine(), " ");
             int zero = 0;
-            int one = 0;
 
             for(int j=0;j<4;j++) {
                 if (Integer.parseInt(st.nextToken()) == 0) {
                     zero++;
-                } else {
-                    one++;
                 }
             }
 
-            switch(zero){
-                case 0 : sb.append("E\n"); break;
-                case 1 : sb.append("A\n"); break;
-                case 2 : sb.append("B\n"); break;
-                case 3 : sb.append("C\n"); break;
-                case 4 : sb.append("D\n"); break;
-            }
+            sb.append(ans.charAt(zero) + "\n");
 
         }
         System.out.println(sb);
