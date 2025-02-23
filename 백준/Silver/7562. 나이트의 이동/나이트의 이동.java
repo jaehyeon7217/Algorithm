@@ -18,7 +18,6 @@ public class Main {
             int n = Integer.parseInt(br.readLine());
 
             int[][] map = new int[n][n];
-            boolean[][] check = new boolean[n][n];
 
             st = new StringTokenizer(br.readLine(), " ");
 
@@ -30,7 +29,7 @@ public class Main {
 
             Queue<node> q = new LinkedList<>();
             q.offer(start);
-            check[start.x][start.y] = true;
+            map[start.x][start.y] = 1;
 
             while(!q.isEmpty()){
                 node temp = q.poll();
@@ -40,9 +39,7 @@ public class Main {
                     int y = temp.y + dy[i];
 
                     if(x<0 || x>=n || y<0 || y>=n) continue;
-                    if(check[x][y]) continue;
-
-                    check[x][y] = true;
+                    if(map[x][y] != 0) continue;
 
                     map[x][y] = map[temp.x][temp.y] + 1;
 
@@ -55,7 +52,7 @@ public class Main {
                 }
             }
 
-            sb.append(map[end.x][end.y] + "\n");
+            sb.append((map[end.x][end.y]-1) + "\n");
 
         }
 
