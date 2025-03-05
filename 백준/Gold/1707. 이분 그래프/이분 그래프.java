@@ -30,7 +30,6 @@ public class Main {
             }
 
             int[] check = new int[v];
-            boolean[] visit = new boolean[v];
 
             boolean flag = false;
             bp : for(int k=0;k<v;k++) {
@@ -44,21 +43,17 @@ public class Main {
 
                 while (!q.isEmpty()) {
                     int now = q.poll();
-                    visit[now] = true;
 
                     for (int i = 0; i < arr[now].size(); i++) {
                         if (check[arr[now].get(i)] == 0) {
                             check[arr[now].get(i)] = check[now] == 1 ? 2 : 1;
+                            q.offer(arr[now].get(i));
                         } else {
                             if (check[arr[now].get(i)] == check[now]) {
                                 q.clear();
                                 flag = true;
                                 break bp;
                             }
-                        }
-
-                        if (!visit[arr[now].get(i)]) {
-                            q.offer(arr[now].get(i));
                         }
 
                     }
