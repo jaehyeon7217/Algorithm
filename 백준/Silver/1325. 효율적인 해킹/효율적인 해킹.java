@@ -24,12 +24,12 @@ public class Main {
             int a = nextInt() - 1;
             int b = nextInt() - 1;
 
-            list[a].add(b);
+            list[b].add(a);
         }
 
         for(int i=0;i<n;i++) {
             visit = new boolean[n];
-            dfs(i);
+            dfs(i,i);
         }
 
         ArrayList<Integer> ans = new ArrayList<>();
@@ -53,18 +53,16 @@ public class Main {
         System.out.println(sb);
 
     }
-
-    public static void dfs(int num) {
+    public static void dfs(int num, int target) {
         visit[num] = true;
 
         for(int i : list[num]){
             if(visit[i]) continue;
-            count[i]++;
-            dfs(i);
+            count[target]++;
+            dfs(i,target);
         }
 
     }
-
 
     public static int nextInt() throws Exception {
         st.nextToken();
