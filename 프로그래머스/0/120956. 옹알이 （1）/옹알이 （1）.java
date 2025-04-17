@@ -6,35 +6,15 @@ class Solution {
         String[] words = {"aya", "ye", "woo", "ma"};
         
         for(String s : babbling){
-            boolean check = true;
-            boolean[] count = new boolean[4];
-            for(int i = 0; i<s.length() ;){
-                char c = s.charAt(i);
-                
-                if(c == 'a' && i+2<s.length() && s.charAt(i+1) == 'y' && s.charAt(i+2) == 'a' && !count[0]){
-                    i+=3;
-                    count[0] = true;
-                }else if(c == 'y' && i+1<s.length() && s.charAt(i+1) == 'e' && !count[1]){
-                    i+=2;
-                    count[1] = true;
-                }else if(c == 'w' && i+2<s.length() && s.charAt(i+1) == 'o' && s.charAt(i+2) == 'o'&& !count[2] ){
-                    i+=3;
-                    count[2] = true;
-                }else if(c == 'm' && i+1<s.length() && s.charAt(i+1) == 'a' && !count[3]){
-                    i+=2;
-                    count[3] =true;
-                }else{
-                    check = false;
-                    break;
+            for(int i=0;i<4;i++){
+                if(s.contains(words[i])){
+                    s=s.replace(words[i], "1");
                 }
-                
             }
-            
-            if(check){
+            s = s.replaceAll("1", "");
+            if(s.isEmpty()){
                 answer++;
             }
-            
-            
         }
         
         
